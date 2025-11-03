@@ -46,4 +46,3 @@ National Park Service API:
   - `/parks/{parkCode}` - Get specific park details
   - `/alerts` - Get alerts for parks
   - `/events` - Get events/programs
->>>>>>> master
