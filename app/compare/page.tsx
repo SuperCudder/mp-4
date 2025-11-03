@@ -76,7 +76,7 @@ export default function ComparePage() {
     <div className="bg-gray-800 min-h-screen">
       {/* Header */}
       <section className="bg-paynes-gray text-white py-12">
-        <div className="w-full px-4">
+        <div className="max-w-7xl mx-auto px-4">
             <Link href="/" className="inline-block bg-raw-umber text-white hover:text-sinopia rounded px-4 py-2 mb-4">
                 {"<"} Back
             </Link>
@@ -92,7 +92,7 @@ export default function ComparePage() {
         </div>
       </section>
 
-      <div className="w-full px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Park Selector */}
         <div className="bg-gray-800 rounded-lg shadow-md p-6 mb-8 border-2">
           <h2 className="text-2xl font-bold text-white mb-4">Select Parks to Compare</h2>

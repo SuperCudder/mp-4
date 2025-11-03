@@ -15,7 +15,7 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-gray-800">
       {/* Hero Section */}
-      <section className="w-full px-4 py-16">
+      <section className="max-w-7xl mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl border-2 border-forest-green font-bold text-white mb-6 bg-paynes-gray rounded-3xl p-5">
             Explore America&#39;s National Parks
@@ -32,8 +32,8 @@ export default async function Home() {
       </section>
 
       {/* Safety-First Alerts Dashboard */}
-      <section className="w-full px-4 py-12 bg-gray-800 rounded">
-        <div className="max-w-6xl mx-auto bg-paynes-gray border-2 border-forest-green p-5 rounded-3xl">
+      <section className="max-w-7xl mx-auto px-4 py-12 bg-gray-800 rounded">
+        <div className="bg-paynes-gray border-2 border-forest-green p-5 rounded-3xl">
           <div className="flex items-center justify-between mb-6">
             <h2 className=" text-3xl font-bold text-gray-100 flex items-center">
               <span className="text-4xl text-white mr-3"> Current Park Alerts</span>
@@ -50,7 +50,7 @@ export default async function Home() {
       </section>
 
       {/* Featured Parks Section */}
-      <section className="w-full px-4 py-12 bg-gradient-to-b bg-paynes-gray rounded-xl border-2 border-forest-green">
+      <section className="max-w-7xl mx-auto px-4 py-12 bg-gradient-to-b bg-paynes-gray rounded-xl border-2 border-forest-green">
         <h2 className="text-3xl font-bold text-white mb-8 text-center">
           Featured Parks
         </h2>
@@ -83,7 +83,7 @@ export default async function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="w-full px-4 py-16">
+      <section className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           <div className="text-center p-5 ">
             <div className=" text-5xl mb-4"><Canyon className="w-10 h-10 mx-auto"/></div>

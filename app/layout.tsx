@@ -38,7 +38,7 @@ export default function RootLayout({
         <div className="min-h-screen flex flex-col">
           {/* Nav Header */}
           <header className="bg-xanthous text-white shadow-lg">
-            <div className="w-full px-4 py-4">
+            <div className="max-w-7xl mx-auto px-4 py-4">
               {/* responsive nav: vertical on mobile, horizontal on desktop */}
               <nav className="flex flex-col md:flex-row items-center justify-between gap-4">
                 <Link href="/" className="text-2xl font-bold hover:text-sinopia transition-colors flex items-center gap-2">
@@ -74,7 +74,7 @@ export default function RootLayout({
 
           {/* Footer */}
           <footer className="bg-paynes-gray text-gray-100 ">
-            <div className="w-full px-4 py-6">
+            <div className="max-w-7xl mx-auto px-4 py-6">
               <div className="text-center text-sm">
                 <p className="mb-2">
                   Data provided by the National Park Service API

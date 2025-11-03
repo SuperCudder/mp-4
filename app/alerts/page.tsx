@@ -21,7 +21,7 @@ export default async function AlertsPage() {
     <div className="bg-gray-800 min-h-screen">
       {/* Header */}
       <section className="bg-sinopia text-white py-12">
-        <div className="w-full px-4">
+        <div className="max-w-7xl mx-auto px-4">
           <Link href="/" className="text-white hover:text-gray-200 mb-4 inline-block">
             {"<"} Back
           </Link>
@@ -34,7 +34,7 @@ export default async function AlertsPage() {
         </div>
       </section>
 
-      <div className="w-full px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Alert Statistics */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-gray-200 rounded-xl border-2 shadow-md p-6 border-sinopia">

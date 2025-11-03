@@ -46,7 +46,7 @@ export default function FavoritesPage() {
     return (
       <div className="bg-gray-800 min-h-screen">
         <section className="bg-sinopia text-white py-12">
-          <div className="w-full px-4">
+          <div className="max-w-7xl mx-auto px-4">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               ❤️ Favorite Parks
             </h1>
@@ -55,7 +55,7 @@ export default function FavoritesPage() {
             </p>
           </div>
         </section>
-        <div className="w-full px-4 py-12">
+        <div className="max-w-7xl mx-auto px-4 py-12">
           <p className="text-gray-600 text-center">Loading your favorites...</p>
         </div>
       </div>
@@ -66,7 +66,7 @@ export default function FavoritesPage() {
     <div className="bg-gray-800 min-h-screen">
       {/* Header */}
       <section className="bg-sinopia text-white py-12">
-        <div className="w-full px-4">
+        <div className="max-w-7xl mx-auto px-4">
             <Link href="/" className="inline-block bg-raw-umber text-white hover:text-sinopia rounded px-4 py-2 mb-4">
                 {"<"} Back
             </Link>
@@ -79,7 +79,7 @@ export default function FavoritesPage() {
         </div>
       </section>
 
-      <div className="w-full px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 py-8">
         {favorites.length === 0 ? (
           <div className="bg-gray-800 rounded-lg shadow-md p-12 text-center">
             <span className="text-6xl mb-4 block">🤍</span>

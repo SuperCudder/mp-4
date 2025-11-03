@@ -84,7 +84,7 @@ async function ParksContent({ searchParams }: ParksPageProps) {
     <>
       {/* Search and Filter Section */}
       <section className="bg-forest-green text-white py-12">
-        <div className="w-full px-4">
+        <div className="max-w-7xl mx-auto px-4">
           <h1 className="text-4xl font-bold mb-6 text-center">{title}</h1>
 
           <div className="max-w-2xl mx-auto mb-6">
@@ -159,7 +159,7 @@ async function ParksContent({ searchParams }: ParksPageProps) {
       </section>
 
       {/* Parks Grid Section */}
-      <section className="w-full px-4 py-12 bg-xanthous rounded-xl">
+      <section className="max-w-7xl mx-auto px-4 py-12 bg-xanthous rounded-xl">
         {parks.length > 0 ? (
           <>
             <p className="text-gray-800 mb-6">
@@ -192,7 +192,7 @@ export default function ParksPage(props: ParksPageProps) {
   return (
     <div className="bg-raw-umber min-h-screen">
       <Suspense fallback={
-        <div className="w-full px-4 py-12">
+        <div className="max-w-7xl mx-auto px-4 py-12">
           <LoadingGrid />
         </div>
       }>
