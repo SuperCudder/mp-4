@@ -51,7 +51,7 @@ export default function SearchBar({
         />
         <button
           type="submit"
-          className="px-6 py-3 bg-forest-green text-white font-semibold rounded-lg hover:bg-xanthous hover:text-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-forest-green focus:ring-offset-2 shadow-md"
+          className="px-6 py-3 bg-raw-umber text-white font-semibold rounded-lg hover:bg-xanthous hover:text-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-forest-green focus:ring-offset-2 shadow-md"
         >
           Search
         </button>

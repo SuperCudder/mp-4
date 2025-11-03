@@ -10,12 +10,12 @@ export default function AlertBanner({ alert }: AlertBannerProps) {
     switch (category) { /* depending on alert type, return specific style for that type of alert*/
       case 'Park Closure':
       case 'Danger':
-        return 'bg-red-400 border-l-4 border-red-700 text-gray-900 rounded-xl';
+        return 'bg-red-400 border-4 border-red-700 text-gray-900 rounded-xl';
       case 'Caution':
-        return 'bg-yellow-200 border-l-4 border-xanthous text-gray-900 rounded-xl';
+        return 'bg-yellow-200 border-4 border-xanthous text-gray-900 rounded-xl';
       case 'Information':
       default:
-        return 'bg-blue-200 border-paynes-gray text-gray-900';
+        return 'bg-blue-200 rounded-xl border-4 border-paynes-gray text-gray-900';
     }
   };
     /* https://unicode.org/emoji/charts/full-emoji-list.html for icons */
@@ -41,7 +41,7 @@ export default function AlertBanner({ alert }: AlertBannerProps) {
         <div className="flex-1">
           <div className="flex items-center justify-between mb-2">
             <h4 className="font-bold text-lg">{alert.title}</h4>
-            <span className="text-xs text-gray-200 font-semibold px-2 py-1 rounded bg-black">
+            <span className="text-xs text-gray-200 font-semibold px-2 py-1 rounded-xl bg-black">
               {alert.category}
             </span>
           </div>

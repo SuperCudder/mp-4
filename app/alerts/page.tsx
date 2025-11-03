@@ -47,7 +47,7 @@ export default async function AlertsPage() {
             </div>
           </div>
 
-          <div className="bg-yellow-200 rounded-lg shadow-md p-6 border-l-4 border-xanthous">
+          <div className="bg-yellow-200 rounded-lg shadow-md p-6 border-4 border-xanthous">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-800 text-sm font-medium">Caution Alerts</p>

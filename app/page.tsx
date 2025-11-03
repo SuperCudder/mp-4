@@ -40,7 +40,7 @@ export default async function Home() {
             </h2>
             <Link
               href="/alerts"
-              className="text-gray-100 hover:text-xanthous font-semibold"
+              className="text-gray-100 hover:text-sinopia font-semibold"
             >
               View All Alerts {"->"}
             </Link>

@@ -18,7 +18,7 @@ export default function AlertsDashboard({ alerts }: AlertsDashboardProps) {
     switch (category) {
       case 'Park Closure':
       case 'Danger':
-        return 'border-sinopia';
+        return 'border-red-700';
       case 'Caution':
         return 'border-xanthous';
       default:
@@ -26,7 +26,7 @@ export default function AlertsDashboard({ alerts }: AlertsDashboardProps) {
     }
   };
 
-  const getSeverityIcon = (category: string) => {
+  const getSeverityIcon = (category: string) => { /* p much the same thing as in AlertBanner but slightly diff*/
     switch (category) {
       case 'Park Closure':
       case 'Danger':
@@ -40,7 +40,7 @@ export default function AlertsDashboard({ alerts }: AlertsDashboardProps) {
 
   if (alerts.length === 0) { /* if no alerts (prob super rare) give fallback */
     return (
-      <div className="bg-paynes-gray border-l-4 border-forest-green p-6 rounded-r-lg">
+      <div className="bg-paynes-gray border-4 border-forest-green p-6 rounded-r-lg">
         <div className="flex items-center">
           <span className="text-3xl mr-3">✅</span>
           <div>
@@ -67,22 +67,22 @@ export default function AlertsDashboard({ alerts }: AlertsDashboardProps) {
             {criticalAlerts.slice(0, 3).map((alert) => (
               <div
                 key={alert.id}
-                className={`bg-paynes-gray border-l-4 ${getSeverityColor(alert.category)} p-4 rounded-r shadow`}
+                className={`bg-red-400 border-4 border-red-700 text-gray-900 rounded-xl ${getSeverityColor(alert.category)} p-4`}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <h4 className="font-bold text-gray-100 mb-1">{alert.title}</h4>
-                    <p className="text-sm text-gray-200 mb-2 line-clamp-2">
+                    <h4 className="font-bold text-gray-800 mb-1">{alert.title}</h4>
+                    <p className="text-sm text-gray-800 mb-2 line-clamp-2">
                       {alert.description}
                     </p>
                     <Link
                       href={`/parks/${alert.parkCode}`}
-                      className="text-sinopia hover:text-forest-green font-semibold text-sm"
+                      className="text-gray-800 hover:text-forest-green font-semibold text-sm"
                     >
-                      View Park Details {"→"}
+                      View Park Details {"->"}
                     </Link>
                   </div>
-                  <span className="ml-3 px-3 py-1 bg-sinopia text-gray-100 text-xs font-bold rounded-full">
+                  <span className="text-xs text-gray-200 font-semibold px-2 py-1 rounded-xl bg-black">
                     {alert.category}
                   </span>
                 </div>
@@ -94,7 +94,7 @@ export default function AlertsDashboard({ alerts }: AlertsDashboardProps) {
               href="/alerts"
               className="mt-4 inline-block text-sinopia hover:text-forest-green font-semibold text-sm"
             >
-              View all {criticalAlerts.length} critical alerts {"→"}
+              View all {criticalAlerts.length} critical alerts {"->"}
             </Link>
           )}
         </div>
@@ -102,14 +102,14 @@ export default function AlertsDashboard({ alerts }: AlertsDashboardProps) {
 
       {/* Warning Alerts */}
       {warningAlerts.length > 0 && (
-        <div className={`bg-yellow-300 border-l-4 ${getSeverityColor('Caution')} rounded p-4`}>
+        <div className={`bg-yellow-300 rounded-xl border-4 ${getSeverityColor('Caution')} rounded p-4`}>
           <h3 className="text-lg font-bold text-gray-800 flex items-center mb-3">
             <span className="text-2xl mr-2">{getSeverityIcon('Caution')}</span>
             Caution Alerts ({warningAlerts.length})
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {warningAlerts.slice(0, 4).map((alert) => (
-              <div key={alert.id} className="bg-yellow-200 p-3 rounded shadow-sm">
+              <div key={alert.id} className="bg-yellow-200 border-4 border-xanthous text-gray-900 rounded-xl p-4">
                 <h4 className="font-semibold text-gray-800 text-sm mb-1">
                   {alert.title}
                 </h4>
@@ -117,7 +117,7 @@ export default function AlertsDashboard({ alerts }: AlertsDashboardProps) {
                   href={`/parks/${alert.parkCode}`}
                   className="text-sinopia hover:text-xanthous text-xs font-medium"
                 >
-                  View Details {"→"}
+                  View Details {"->"}
                 </Link>
               </div>
             ))}
@@ -127,7 +127,7 @@ export default function AlertsDashboard({ alerts }: AlertsDashboardProps) {
 
       {/* Info Summary */}
       {infoAlerts.length > 0 && (
-        <div className={`bg-blue-200 border-l-4 ${getSeverityColor('Information')} rounded-r-lg p-4`}>
+        <div className={`bg-blue-200 border-4 ${getSeverityColor('Information')} rounded-r-lg p-4`}>
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-bold text-gray-800 flex items-center">
               <span className="text-2xl mr-2">{getSeverityIcon('Information')}</span>

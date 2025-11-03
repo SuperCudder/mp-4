@@ -7,7 +7,7 @@ interface EventListProps {
 export default function EventList({ events }: EventListProps) {
   if (events.length === 0) {
     return (
-      <div className="text-center text-sinopia py-8">
+      <div className="text-center text-gray-200 py-8">
         No upcoming events or programs scheduled at this time.
       </div>
     );
