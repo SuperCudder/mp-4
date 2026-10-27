@@ -1,13 +1,15 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { Search, X, ArrowRight } from 'lucide-react';
 
 interface SearchBarProps {
   placeholder?: string;
   onSearch?: (query: string) => void;
   onChange?: (query: string) => void;
   className?: string;
+  defaultValue?: string;
 }
 
 export default function SearchBar({
@@ -15,14 +17,28 @@ export default function SearchBar({
   onSearch,
   onChange,
   className = "",
+  defaultValue = "",
 }: SearchBarProps) {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(defaultValue);
   const router = useRouter();
+
+  useEffect(() => {
+    if (defaultValue !== undefined) {
+      setQuery(defaultValue);
+    }
+  }, [defaultValue]);
 
   const handleChange = (value: string) => {
     setQuery(value);
     if (onChange) {
       onChange(value);
+    }
+  };
+
+  const handleClear = () => {
+    setQuery('');
+    if (onChange) {
+      onChange('');
     }
   };
 
@@ -41,19 +57,38 @@ export default function SearchBar({
 
   return (
     <form onSubmit={handleSubmit} className={`w-full ${className}`}>
-      <div className="flex gap-2">
+      <div className="relative flex items-center">
+        <div className="absolute left-4 pointer-events-none flex items-center text-forest-green/70">
+          <Search className="w-5 h-5" />
+        </div>
+
         <input
           type="text"
           value={query}
           onChange={(e) => handleChange(e.target.value)}
           placeholder={placeholder}
-          className="flex-1 bg-gray-800 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sinopia focus:border-xanthous text-white placeholder-gray-400"
+          className="w-full pl-12 pr-28 sm:pr-32 py-3.5 bg-white/90 border border-parchment focus:border-forest-green focus:ring-2 focus:ring-forest-green/15 text-canopy placeholder-sage/70 rounded-2xl text-base shadow-sm transition-all outline-none"
         />
+
+        {query && (
+          <button
+            type="button"
+            onClick={handleClear}
+            className="absolute right-24 sm:right-28 p-1.5 text-sage hover:text-canopy rounded-full hover:bg-stone-warm transition-colors"
+            title="Clear search"
+            aria-label="Clear search"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        )}
+
         <button
           type="submit"
-          className="px-6 py-3 bg-raw-umber text-white font-semibold rounded-lg hover:bg-xanthous hover:text-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-forest-green focus:ring-offset-2 shadow-md"
+          className="absolute right-2 px-3.5 sm:px-4 py-2 bg-forest-green hover:bg-moss text-white font-medium rounded-xl transition-all duration-200 flex items-center gap-1.5 shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-forest-green/30"
+          aria-label="Submit search"
         >
-          Search
+          <span className="hidden xs:inline sm:inline">Search</span>
+          <ArrowRight className="w-4 h-4" />
         </button>
       </div>
     </form>

@@ -3,30 +3,34 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #F8F7F4;
+  --foreground: #0F291E;
 
-  /* color palette taken from photographs captured at Acadia National Park, ME */
-  --forest-green: #1E5631;
-  --paynes-gray: #486786;
-  --xanthous: #e9b525;
-  --sinopia: #cb4f23;
-  --raw-umber: #926842;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* color palette taken from photographs captured at Acadia National Park, ME & Eco-Futurist system */
+  --forest-green: #1B4332;
+  --paynes-gray: #3A5247;
+  --xanthous: #D4A359;
+  --sinopia: #B85D3B;
+  --raw-umber: #6F4E37;
+  --canopy: #0F291E;
+  --alabaster: #F8F7F4;
+  --parchment: #E5E0D5;
 }
 
 body {
   color: var(--foreground);
+  background-color: var(--background);
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .bg-topo-pattern {
+    background-image: 
+      radial-gradient(circle at 100% 0%, rgba(27, 67, 50, 0.04) 0%, transparent 50%),
+      radial-gradient(circle at 0% 100%, rgba(111, 78, 55, 0.03) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cpath d='M0 25 Q 40 10, 80 25 T 160 25 M0 65 Q 45 50, 85 65 T 160 65 M0 105 Q 35 120, 80 105 T 160 105 M0 145 Q 50 130, 95 145 T 160 145' fill='none' stroke='%231B4332' stroke-width='1' stroke-opacity='0.06'/%3E%3Cpath d='M25 0 Q 15 45, 25 90 T 25 160 M75 0 Q 90 40, 75 85 T 75 160 M125 0 Q 110 50, 125 95 T 125 160' fill='none' stroke='%236F4E37' stroke-width='1' stroke-opacity='0.04'/%3E%3C/svg%3E");
   }
 }

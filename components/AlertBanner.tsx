@@ -1,59 +1,65 @@
 import { NPSAlert } from '@/types/nps';
+import { ShieldAlert, AlertTriangle, Info, ExternalLink } from 'lucide-react';
 
 interface AlertBannerProps {
   alert: NPSAlert;
 }
 
 export default function AlertBanner({ alert }: AlertBannerProps) {
-  /* determine alert color based on category */
-  const getAlertStyles = (category: string) => {
-    switch (category) { /* depending on alert type, return specific style for that type of alert*/
-      case 'Park Closure':
-      case 'Danger':
-        return 'bg-red-400 border-4 border-red-700 text-gray-900 rounded-xl';
-      case 'Caution':
-        return 'bg-yellow-200 border-4 border-xanthous text-gray-900 rounded-xl';
-      case 'Information':
-      default:
-        return 'bg-blue-200 rounded-xl border-4 border-paynes-gray text-gray-900';
-    }
-  };
-    /* https://unicode.org/emoji/charts/full-emoji-list.html for icons */
-  const getAlertIcon = (category: string) => {
+  /* determine alert styling and icons based on category */
+  const getAlertConfig = (category: string) => {
     switch (category) {
       case 'Park Closure':
       case 'Danger':
-        return '⛔';
+        return {
+          wrapper: 'bg-[#FDF6F3] border-sinopia/40 text-espresso shadow-sm',
+          badge: 'bg-sinopia/15 text-sinopia border border-sinopia/30',
+          icon: <ShieldAlert className="w-5 h-5 text-sinopia flex-shrink-0 mt-0.5" />,
+          accent: 'text-sinopia',
+        };
       case 'Caution':
-        return '⚠️';
+        return {
+          wrapper: 'bg-[#FDF9F0] border-xanthous/50 text-espresso shadow-sm',
+          badge: 'bg-xanthous/20 text-[#8B6514] border border-xanthous/40',
+          icon: <AlertTriangle className="w-5 h-5 text-xanthous flex-shrink-0 mt-0.5" />,
+          accent: 'text-raw-umber',
+        };
       case 'Information':
       default:
-        return 'ℹ️';
+        return {
+          wrapper: 'bg-sage-light/60 border-sage/40 text-canopy shadow-sm',
+          badge: 'bg-sage/15 text-forest-green border border-sage/30',
+          icon: <Info className="w-5 h-5 text-forest-green flex-shrink-0 mt-0.5" />,
+          accent: 'text-forest-green',
+        };
     }
   };
 
+  const config = getAlertConfig(alert.category);
+
   return (
     <div
-      className={`border-l-4 p-4 rounded-r-lg ${getAlertStyles(alert.category)}`}
+      className={`border rounded-xl p-4 transition-all ${config.wrapper}`}
     >
-      <div className="flex items-start">
-        <span className="text-2xl mr-3 flex-shrink-0">{getAlertIcon(alert.category)}</span>
-        <div className="flex-1">
-          <div className="flex items-center justify-between mb-2">
-            <h4 className="font-bold text-lg">{alert.title}</h4>
-            <span className="text-xs text-gray-200 font-semibold px-2 py-1 rounded-xl bg-black">
+      <div className="flex items-start gap-3.5">
+        {config.icon}
+        <div className="flex-1 min-w-0">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+            <h4 className="font-bold text-base text-canopy">{alert.title}</h4>
+            <span className={`text-[11px] font-mono font-semibold uppercase px-2.5 py-0.5 rounded-full ${config.badge}`}>
               {alert.category}
             </span>
           </div>
-          <p className="text-sm whitespace-pre-line">{alert.description}</p>
+          <p className="text-sm leading-relaxed text-canopy/80 whitespace-pre-line">{alert.description}</p>
           {alert.url && (
             <a
               href={alert.url}
               target="_blank" /* opens in new tab */
               rel="noopener noreferrer" /* phishing security */
-              className="text-sm font-semibold mt-2 inline-block hover:underline"
+              className={`inline-flex items-center gap-1 text-sm font-semibold mt-3 transition-opacity hover:opacity-80 ${config.accent}`}
             >
-              Learn more {"->"}
+              <span>Learn more</span>
+              <ExternalLink className="w-3.5 h-3.5" />
             </a>
           )}
         </div>

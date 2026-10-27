@@ -1,145 +1,311 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 import { NPSAlert } from '@/types/nps';
+import {
+  ShieldAlert,
+  AlertTriangle,
+  Info,
+  CheckCircle2,
+  ArrowRight,
+  ChevronDown,
+  ChevronUp,
+  ExternalLink,
+} from 'lucide-react';
 
 interface AlertsDashboardProps {
   alerts: NPSAlert[];
 }
 
 export default function AlertsDashboard({ alerts }: AlertsDashboardProps) {
-  // categorize alerts danger
-  const criticalAlerts = alerts.filter( /* filter by alert type if most important*/
+  const [selectedCategory, setSelectedCategory] = useState<
+    'all' | 'critical' | 'caution' | 'info'
+  >('all');
+  const [expandedAlertId, setExpandedAlertId] = useState<string | null>(null);
+
+  const criticalAlerts = alerts.filter(
     (alert) => alert.category === 'Park Closure' || alert.category === 'Danger'
   );
-  const warningAlerts = alerts.filter((alert) => alert.category === 'Caution'); /* filter warnings */
-  const infoAlerts = alerts.filter((alert) => alert.category === 'Information'); /* filter for simple info*/
+  const warningAlerts = alerts.filter((alert) => alert.category === 'Caution');
+  const infoAlerts = alerts.filter((alert) => alert.category === 'Information');
 
-  const getSeverityColor = (category: string) => {
-    // return border color based on severity
-    switch (category) {
-      case 'Park Closure':
-      case 'Danger':
-        return 'border-red-700';
-      case 'Caution':
-        return 'border-xanthous';
-      default:
-        return 'border-paynes-gray';
-    }
-  };
-
-  const getSeverityIcon = (category: string) => { /* p much the same thing as in AlertBanner but slightly diff*/
-    switch (category) {
-      case 'Park Closure':
-      case 'Danger':
-        return '🚨';
-      case 'Caution':
-        return '⚠️';
-      default:
-        return 'ℹ️';
-    }
-  };
-
-  if (alerts.length === 0) { /* if no alerts (prob super rare) give fallback */
+  if (alerts.length === 0) {
     return (
-      <div className="bg-paynes-gray border-4 border-forest-green p-6 rounded-r-lg">
-        <div className="flex items-center">
-          <span className="text-3xl mr-3">✅</span>
+      <div className="bg-sage-light/50 border border-sage/30 p-6 rounded-2xl">
+        <div className="flex items-center gap-3">
+          <CheckCircle2 className="w-8 h-8 text-forest-green flex-shrink-0" />
           <div>
-            <h3 className="text-lg font-bold text-sinopia">All Clear!</h3>
-            <p className="text-gray-200">No active alerts right now.</p>
+            <h3 className="text-base font-bold text-forest-green">All Clear</h3>
+            <p className="text-sm text-canopy/70">
+              There are currently no active safety closures or hazard warnings reported across monitored parks.
+            </p>
           </div>
         </div>
       </div>
     );
   }
 
+  // Filter alerts by selected tab
+  const displayedAlerts = (() => {
+    switch (selectedCategory) {
+      case 'critical':
+        return criticalAlerts;
+      case 'caution':
+        return warningAlerts;
+      case 'info':
+        return infoAlerts;
+      default:
+        return alerts;
+    }
+  })();
+
+  const toggleExpand = (id: string) => {
+    setExpandedAlertId(expandedAlertId === id ? null : id);
+  };
+
   return (
     <div className="space-y-6">
-      {/* Critical Alerts - Important */}
-      {criticalAlerts.length > 0 && (
-        <div className={`bg-gray-800 border-2 ${getSeverityColor('Danger')} rounded-lg p-6 shadow-lg`}>
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-2xl font-bold text-red-400 flex items-center">
-              <span className="text-4xl mr-3">{getSeverityIcon('Danger')}</span>
-              Critical Alerts ({criticalAlerts.length})
-            </h3>
-          </div>
-          <div className="space-y-3">
-            {criticalAlerts.slice(0, 3).map((alert) => (
-              <div
+      {/* Interactive Category Filter Tabs / Metric Cards */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <button
+          type="button"
+          onClick={() => setSelectedCategory('all')}
+          className={`p-3.5 rounded-2xl border text-left transition-all shadow-sm ${
+            selectedCategory === 'all'
+              ? 'bg-forest-green text-white border-forest-green shadow-forest-green/20'
+              : 'bg-white hover:bg-stone-warm text-canopy border-parchment'
+          }`}
+        >
+          <span
+            className={`text-[11px] font-mono uppercase tracking-wider block font-semibold ${
+              selectedCategory === 'all' ? 'text-white/80' : 'text-raw-umber'
+            }`}
+          >
+            All Alerts
+          </span>
+          <span className="text-2xl font-bold font-mono">{alerts.length}</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setSelectedCategory('critical')}
+          className={`p-3.5 rounded-2xl border text-left transition-all shadow-sm ${
+            selectedCategory === 'critical'
+              ? 'bg-sinopia text-white border-sinopia shadow-sinopia/20'
+              : 'bg-[#FDF6F3] hover:bg-[#FCEEE8] text-sinopia border-sinopia/30'
+          }`}
+        >
+          <span
+            className={`text-[11px] font-mono uppercase tracking-wider block font-semibold ${
+              selectedCategory === 'critical' ? 'text-white/80' : 'text-sinopia'
+            }`}
+          >
+            Critical & Closures
+          </span>
+          <span className="text-2xl font-bold font-mono">{criticalAlerts.length}</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setSelectedCategory('caution')}
+          className={`p-3.5 rounded-2xl border text-left transition-all shadow-sm ${
+            selectedCategory === 'caution'
+              ? 'bg-xanthous text-canopy border-xanthous shadow-xanthous/20 font-bold'
+              : 'bg-[#FDF9F0] hover:bg-[#FAF4E4] text-[#8B6514] border-xanthous/40'
+          }`}
+        >
+          <span
+            className={`text-[11px] font-mono uppercase tracking-wider block font-semibold ${
+              selectedCategory === 'caution' ? 'text-canopy/75' : 'text-[#8B6514]'
+            }`}
+          >
+            Caution Advisories
+          </span>
+          <span className="text-2xl font-bold font-mono">{warningAlerts.length}</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setSelectedCategory('info')}
+          className={`p-3.5 rounded-2xl border text-left transition-all shadow-sm ${
+            selectedCategory === 'info'
+              ? 'bg-moss text-white border-moss shadow-moss/20'
+              : 'bg-sage-light/60 hover:bg-sage-light text-forest-green border-sage/30'
+          }`}
+        >
+          <span
+            className={`text-[11px] font-mono uppercase tracking-wider block font-semibold ${
+              selectedCategory === 'info' ? 'text-white/80' : 'text-forest-green'
+            }`}
+          >
+            Information
+          </span>
+          <span className="text-2xl font-bold font-mono">{infoAlerts.length}</span>
+        </button>
+      </div>
+
+      {/* Animated Alerts List */}
+      <motion.div layout className="space-y-3">
+        <AnimatePresence mode="popLayout">
+          {displayedAlerts.slice(0, 8).map((alert) => {
+            const isCritical =
+              alert.category === 'Park Closure' || alert.category === 'Danger';
+            const isWarning = alert.category === 'Caution';
+            const isExpanded = expandedAlertId === alert.id;
+
+            return (
+              <motion.div
                 key={alert.id}
-                className={`bg-red-400 border-4 border-red-700 text-gray-900 rounded-xl ${getSeverityColor(alert.category)} p-4`}
+                layout
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.2 }}
+                className={`bg-white border rounded-2xl overflow-hidden shadow-sm transition-all ${
+                  isCritical
+                    ? 'border-sinopia/30 hover:border-sinopia/60'
+                    : isWarning
+                    ? 'border-xanthous/40 hover:border-xanthous/70'
+                    : 'border-parchment hover:border-forest-green/40'
+                }`}
               >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <h4 className="font-bold text-gray-800 mb-1">{alert.title}</h4>
-                    <p className="text-sm text-gray-800 mb-2 line-clamp-2">
-                      {alert.description}
-                    </p>
-                    <Link
-                      href={`/parks/${alert.parkCode}`}
-                      className="text-gray-800 hover:text-forest-green font-semibold text-sm"
-                    >
-                      View Park Details {"->"}
-                    </Link>
-                  </div>
-                  <span className="text-xs text-gray-200 font-semibold px-2 py-1 rounded-xl bg-black">
-                    {alert.category}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-          {criticalAlerts.length > 3 && (
-            <Link
-              href="/alerts"
-              className="mt-4 inline-block text-sinopia hover:text-forest-green font-semibold text-sm"
-            >
-              View all {criticalAlerts.length} critical alerts {"->"}
-            </Link>
-          )}
-        </div>
-      )}
-
-      {/* Warning Alerts */}
-      {warningAlerts.length > 0 && (
-        <div className={`bg-yellow-300 rounded-xl border-4 ${getSeverityColor('Caution')} rounded p-4`}>
-          <h3 className="text-lg font-bold text-gray-800 flex items-center mb-3">
-            <span className="text-2xl mr-2">{getSeverityIcon('Caution')}</span>
-            Caution Alerts ({warningAlerts.length})
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {warningAlerts.slice(0, 4).map((alert) => (
-              <div key={alert.id} className="bg-yellow-200 border-4 border-xanthous text-gray-900 rounded-xl p-4">
-                <h4 className="font-semibold text-gray-800 text-sm mb-1">
-                  {alert.title}
-                </h4>
-                <Link
-                  href={`/parks/${alert.parkCode}`}
-                  className="text-sinopia hover:text-xanthous text-xs font-medium"
+                {/* Clickable Header for Collapsible */}
+                <div
+                  onClick={() => toggleExpand(alert.id)}
+                  className="p-4 sm:p-5 flex items-start justify-between gap-3 cursor-pointer select-none hover:bg-stone-warm/30 transition-colors"
                 >
-                  View Details {"->"}
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+                  <div className="flex items-start gap-3 min-w-0">
+                    <div
+                      className={`p-2 rounded-xl flex-shrink-0 mt-0.5 ${
+                        isCritical
+                          ? 'bg-sinopia/10 text-sinopia'
+                          : isWarning
+                          ? 'bg-xanthous/20 text-[#8B6514]'
+                          : 'bg-sage-light text-forest-green'
+                      }`}
+                    >
+                      {isCritical ? (
+                        <ShieldAlert className="w-5 h-5" />
+                      ) : isWarning ? (
+                        <AlertTriangle className="w-5 h-5" />
+                      ) : (
+                        <Info className="w-5 h-5" />
+                      )}
+                    </div>
 
-      {/* Info Summary */}
-      {infoAlerts.length > 0 && (
-        <div className={`bg-blue-200 border-4 ${getSeverityColor('Information')} rounded-r-lg p-4`}>
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-bold text-gray-800 flex items-center">
-              <span className="text-2xl mr-2">{getSeverityIcon('Information')}</span>
-              {infoAlerts.length} Informational Update{infoAlerts.length !== 1 ? 's' : ''}
-            </h3>
-            <Link
-              href="/alerts"
-              className="text-paynes-gray hover:text-forest-green font-semibold text-sm"
-            >
-              View All {"→"}
-            </Link>
-          </div>
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                        <span
+                          className={`font-mono text-[10px] font-bold px-2 py-0.5 rounded uppercase ${
+                            isCritical
+                              ? 'bg-sinopia/15 text-sinopia'
+                              : isWarning
+                              ? 'bg-xanthous/25 text-[#8B6514]'
+                              : 'bg-sage-light text-forest-green'
+                          }`}
+                        >
+                          {alert.category}
+                        </span>
+
+                        {alert.parkCode && (
+                          <span className="font-mono text-[11px] font-semibold text-canopy/70 uppercase">
+                            Park: {alert.parkCode}
+                          </span>
+                        )}
+                      </div>
+
+                      <h4 className="text-base sm:text-lg font-bold text-canopy leading-snug">
+                        {alert.title}
+                      </h4>
+
+                      {!isExpanded && (
+                        <p className="text-xs sm:text-sm text-canopy/70 line-clamp-1 mt-1">
+                          {alert.description}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 flex-shrink-0 pt-1 text-canopy/50">
+                    <span className="hidden sm:inline text-xs font-medium">
+                      {isExpanded ? 'Less' : 'Details'}
+                    </span>
+                    {isExpanded ? (
+                      <ChevronUp className="w-4 h-4" />
+                    ) : (
+                      <ChevronDown className="w-4 h-4" />
+                    )}
+                  </div>
+                </div>
+
+                {/* Collapsible Content */}
+                <AnimatePresence>
+                  {isExpanded && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.25 }}
+                      className="px-4 sm:px-5 pb-5 pt-1 border-t border-parchment/60 bg-sand/30"
+                    >
+                      <p className="text-sm text-canopy/85 leading-relaxed mb-4">
+                        {alert.description}
+                      </p>
+
+                      <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
+                        <div className="flex items-center gap-2 font-mono text-canopy/60">
+                          {alert.lastIndexedDate && (
+                            <span>
+                              Updated: {new Date(alert.lastIndexedDate).toLocaleDateString()}
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="flex items-center gap-3">
+                          {alert.url && (
+                            <a
+                              href={alert.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 font-semibold text-canopy/80 hover:text-canopy transition-colors"
+                            >
+                              <span>Official Bulletin</span>
+                              <ExternalLink className="w-3.5 h-3.5" />
+                            </a>
+                          )}
+
+                          {alert.parkCode && (
+                            <Link
+                              href={`/parks/${alert.parkCode}`}
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-forest-green hover:bg-moss text-white rounded-lg font-semibold transition-colors shadow-sm"
+                            >
+                              <span>View Park</span>
+                              <ArrowRight className="w-3.5 h-3.5" />
+                            </Link>
+                          )}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
+      </motion.div>
+
+      {/* Link to all alerts if many */}
+      {alerts.length > 8 && (
+        <div className="text-center pt-2">
+          <Link
+            href="/alerts"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-stone-warm hover:bg-parchment text-canopy font-semibold rounded-xl text-sm transition-colors"
+          >
+            <span>View All {alerts.length} Park Alerts</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       )}
     </div>
