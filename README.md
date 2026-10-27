@@ -1,6 +1,6 @@
 # National Park Service Buddy
 
-Buddy helps you find  
+Buddy helps you find NPS info.
 
 ## Features
 
